@@ -70,7 +70,7 @@ def rand_permutation(data_A, data_B, n, R):
     for x in range(0, R):
         temp_A = data_A
         temp_B = data_B
-        samples = [np.random.randint(1, 3) for i in xrange(n)] #which samples to swap without repetitions
+        samples = [np.random.randint(1, 3) for i in range(n)] #which samples to swap without repetitions
         swap_ind = [i for i, val in enumerate(samples) if val == 1]
         for ind in swap_ind:
             temp_B[ind], temp_A[ind] = temp_A[ind], temp_B[ind]
@@ -124,36 +124,36 @@ def main():
     data_B = list(map(float,data_B))
 
     print("\nPossible statistical tests: Shapiro-Wilk, Anderson-Darling, Kolmogorov-Smirnov, t-test, Wilcoxon, McNemar, Permutation, Bootstrap")
-    name = raw_input("\nEnter name of statistical test: ")
+    name = input("\nEnter name of statistical test: ")
 
     ### Normality Check
     if(name=="Shapiro-Wilk" or name=="Anderson-Darling" or name=="Kolmogorov-Smirnov"):
         output = normality_check(data_A, data_B, name, alpha)
 
         if(float(output)>float(alpha)):
-            answer = raw_input("\nThe normal test is significant, would you like to perform a t-test for checking significance of difference between results? (Y\N) ")
+            answer = input("\nThe normal test is significant, would you like to perform a t-test for checking significance of difference between results? (Y\\N) ")
             if(answer=='Y'):
                 # two sided t-test
                 t_results = stats.ttest_rel(data_A, data_B)
                 # correct for one sided test
                 pval = t_results[1]/2
                 if(float(pval)<=float(alpha)):
-                    print("\nTest result is significant with p-value: {}".format(pval))
+                    print(("\nTest result is significant with p-value: {}".format(pval)))
                     return
                 else:
-                    print("\nTest result is not significant with p-value: {}".format(pval))
+                    print(("\nTest result is not significant with p-value: {}".format(pval)))
                     return
             else:
-                answer2 = raw_input("\nWould you like to perform a different test (permutation or bootstrap)? If so enter name of test, otherwise type 'N' ")
+                answer2 = input("\nWould you like to perform a different test (permutation or bootstrap)? If so enter name of test, otherwise type 'N' ")
                 if(answer2=='N'):
                     print("\nbye-bye")
                     return
                 else:
                     name = answer2
         else:
-            answer = raw_input("\nThe normal test is not significant, would you like to perform a non-parametric test for checking significance of difference between results? (Y\N) ")
+            answer = input("\nThe normal test is not significant, would you like to perform a non-parametric test for checking significance of difference between results? (Y\\N) ")
             if (answer == 'Y'):
-                answer2 = raw_input("\nWhich test (Permutation or Bootstrap)? ")
+                answer2 = input("\nWhich test (Permutation or Bootstrap)? ")
                 name = answer2
             else:
                 print("\nbye-bye")
@@ -167,20 +167,20 @@ def main():
         # correct for one sided test
         pval = float(t_results[1]) / 2
         if (float(pval) <= float(alpha)):
-            print("\nTest result is significant with p-value: {}".format(pval))
+            print(("\nTest result is significant with p-value: {}".format(pval)))
             return
         else:
-            print("\nTest result is not significant with p-value: {}".format(pval))
+            print(("\nTest result is not significant with p-value: {}".format(pval)))
             return
 
     # Wilcoxon: Calculate the Wilcoxon signed-rank test.
     if(name=="Wilcoxon"):
         wilcoxon_results = stats.wilcoxon(data_A, data_B)
         if (float(wilcoxon_results[1]) <= float(alpha)):
-            print("\nTest result is significant with p-value: {}".format(wilcoxon_results[1]))
+            print(("\nTest result is significant with p-value: {}".format(wilcoxon_results[1])))
             return
         else:
-            print("\nTest result is not significant with p-value: {}".format(wilcoxon_results[1]))
+            print(("\nTest result is not significant with p-value: {}".format(wilcoxon_results[1])))
             return
 
     if(name=="McNemar"):
@@ -188,20 +188,20 @@ def main():
         f_obs = calculateContingency(data_A, data_B, len(data_A))
         mcnemar_results = mcNemar(f_obs)
         if (float(mcnemar_results) <= float(alpha)):
-            print("\nTest result is significant with p-value: {}".format(mcnemar_results))
+            print(("\nTest result is significant with p-value: {}".format(mcnemar_results)))
             return
         else:
-            print("\nTest result is not significant with p-value: {}".format(mcnemar_results))
+            print(("\nTest result is not significant with p-value: {}".format(mcnemar_results)))
             return
 
     if(name=="Permutation"):
         R = max(10000, int(len(data_A) * (1 / float(alpha))))
         pval = rand_permutation(data_A, data_B, len(data_A), R)
         if (float(pval) <= float(alpha)):
-            print("\nTest result is significant with p-value: {}".format(pval))
+            print(("\nTest result is significant with p-value: {}".format(pval)))
             return
         else:
-            print("\nTest result is not significant with p-value: {}".format(pval))
+            print(("\nTest result is not significant with p-value: {}".format(pval)))
             return
 
 
@@ -209,10 +209,10 @@ def main():
         R = max(10000, int(len(data_A) * (1 / float(alpha))))
         pval = Bootstrap(data_A, data_B, len(data_A), R)
         if (float(pval) <= float(alpha)):
-            print("\nTest result is significant with p-value: {}".format(pval))
+            print(("\nTest result is significant with p-value: {}".format(pval)))
             return
         else:
-            print("\nTest result is not significant with p-value: {}".format(pval))
+            print(("\nTest result is not significant with p-value: {}".format(pval)))
             return
 
     else:

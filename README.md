@@ -10,12 +10,12 @@ In the paper we focus on the setup where the performance of two algorithms, A an
 
 ## Getting Started 
 
-The script is written in Python 2.7.
+The script is written in Python 3.
 
 ### Input
 Use the following command to run the script:
 ```
-python testSignificance.py result_file_A result_file_B alpha
+python3 testSignificance.py result_file_A result_file_B alpha
 ```
 The input consists of two files with the results of applying each algorithm (A and B) on the data X and the desirable significance level (alpha). The results for each algorithm should be in the following form (the result for each sample in X separated by lines) :
 ```
@@ -38,7 +38,7 @@ The output of the script is the p-value of the statistical test and a statement 
 ### Example
 You can use the two datasets resA.txt and resB.txt to run the following example:
 ```
-python testSignificance.py data_A_normal.txt data_B_normal.txt 0.05
+python3 testSignificance.py data_A_normal.txt data_B_normal.txt 0.05
 
 Possible statistical tests: Shapiro-Wilk, Anderson-Darling, Kolmogorov-Smirnov, t-test, Wilcoxon, McNemar
 
